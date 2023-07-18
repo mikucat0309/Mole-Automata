@@ -15,6 +15,9 @@ Adobe 已經移除下載連結，但摩爾莊園官網有提供
 ### 摩爾莊園程式連結
 
 - 主程式 [http://mole.61.com.tw/Client.swf](http://mole.61.com.tw/Client.swf)
+
+三個函式庫程式碼高度重疊，但仍有些許不同
+
 - 共同函式庫 [http://mole.61.com.tw/ClientCommonDLL.swf](http://mole.61.com.tw/ClientCommonDLL.swf)
 - 通訊函式庫 [http://mole.61.com.tw/ClientSocketDLL.swf](http://mole.61.com.tw/ClientSocketDLL.swf)
 - 應用函式庫 [http://mole.61.com.tw/ClientAppDLL.swf](http://mole.61.com.tw/ClientAppDLL.swf)
