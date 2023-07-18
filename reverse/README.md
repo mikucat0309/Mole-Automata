@@ -14,15 +14,20 @@ Adobe 已經移除下載連結，但摩爾莊園官網有提供
 
 ### 摩爾莊園程式連結
 
-主程式 [http://mole.61.com.tw/Client.swf](http://mole.61.com.tw/Client.swf)
-
-共同函式庫 [http://mole.61.com.tw/ClientCommonDLL.swf](http://mole.61.com.tw/ClientCommonDLL.swf)
-通訊函式庫 [http://mole.61.com.tw/ClientSocketDLL.swf](http://mole.61.com.tw/ClientSocketDLL.swf)
-應用函式庫 [http://mole.61.com.tw/ClientAppDLL.swf](http://mole.61.com.tw/ClientAppDLL.swf)
+- 主程式 [http://mole.61.com.tw/Client.swf](http://mole.61.com.tw/Client.swf)
+- 共同函式庫 [http://mole.61.com.tw/ClientCommonDLL.swf](http://mole.61.com.tw/ClientCommonDLL.swf)
+- 通訊函式庫 [http://mole.61.com.tw/ClientSocketDLL.swf](http://mole.61.com.tw/ClientSocketDLL.swf)
+- 應用函式庫 [http://mole.61.com.tw/ClientAppDLL.swf](http://mole.61.com.tw/ClientAppDLL.swf)
 
 ### 反編譯工具
 
-[ffdec](https://github.com/jindrapetrik/jpexs-decompiler)
+- [ffdec](https://github.com/jindrapetrik/jpexs-decompiler)
+
+Flash 反組譯工具
+
+- [decode-amf3.py](decode-amf3.py)
+
+swf 封裝許多 amf3 格式的二進位資料，轉成 JSON 方便閱讀與處理
 
 ### 流量分析工具
 
