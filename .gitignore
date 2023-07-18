@@ -1,0 +1,6 @@
+.env
+
+reverse/*
+!reverse/README.md
+!reverse/*.lua
+!reverse/*.py
