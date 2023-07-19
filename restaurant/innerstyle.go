@@ -1,4 +1,4 @@
-package game
+package restaurant
 
 type (
 	InnerStyleId uint32

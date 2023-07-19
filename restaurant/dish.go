@@ -1,4 +1,4 @@
-package game
+package restaurant
 
 type (
 	DishID uint32

@@ -1,21 +1,19 @@
-package game
+package restaurant
 
 import (
 	"bytes"
 	"encoding/binary"
-	"fmt"
+
+	cmd "github.com/mikucat0309/mole/command"
+	"github.com/mikucat0309/mole/game"
+	map_ "github.com/mikucat0309/mole/map"
 )
 
 type (
 	CookID uint32
 )
 
-type GetRestaruntInfoData struct {
-	User    uint32
-	MapType MapType
-}
-
-type RestaruntInfo struct {
+type Info struct {
 	User       uint32
 	Serial     uint32
 	Grid       uint32
@@ -36,7 +34,7 @@ type RestaruntInfo struct {
 }
 
 type Employee struct {
-	User      User
+	User      game.User
 	ID        uint32
 	Name      string
 	Color     uint32
@@ -48,99 +46,16 @@ type Employee struct {
 	TimeLimit uint32
 }
 
-type MakeDishData struct {
-	Dish  DishID
-	Stove DishContainerLoc
+var info *Info
+
+type GetInfoData struct {
+	User    uint32
+	MapType map_.MapType
 }
 
-type MakeDishRespData struct {
-	Dish     DishID
-	Cook     CookID
-	Stove    DishContainerLoc
-	CookProg int32
-	ZZZ1     int32
-}
-
-type PrepareDishData struct {
-	Dish DishID
-	Cook CookID
-}
-
-type StoreDishData struct {
-	Dish      DishID
-	Cook      CookID
-	Stove     DishContainerLoc
-	DishTable DishContainerLoc
-}
-
-type ClearDishData struct {
-	Dish  DishID
-	Cook  CookID
-	Stove DishContainerLoc
-}
-
-var restaruntInfo *RestaruntInfo
-
-func (c *GameConn) MakeDish(stove *Stove, dish DishID) (err error) {
-	resp := &MakeDishRespData{}
-	err = c.conn.SendRecv(CMD_MAKE_FOOD, MakeDishData{dish, stove.Dish.Loc}, resp)
-	stove.Dish.Dish = dish
-	stove.Dish.CookID = resp.Cook
-	stove.Dish.state = 1
-	return
-}
-
-func (c *GameConn) PrepareDish(stove *Stove) (err error) {
-	if stove.Dish.state == 1 {
-		_, err = c.conn.SendCmd(CMD_PREPARE_FOOD, PrepareDishData{stove.Dish.Dish, stove.Dish.CookID})
-		stove.Dish.state = 2
-	}
-	if stove.Dish.state == 2 {
-		_, err = c.conn.SendCmd(CMD_PREPARE_FOOD, PrepareDishData{stove.Dish.Dish, stove.Dish.CookID})
-		stove.Dish.state = 3
-		stove.Dish.CookDuration = 0
-	}
-	return
-}
-
-func (c *GameConn) StoreDish(stove *Stove) error {
-	table := findTargetDishtable(restaruntInfo.DishTables, stove.Dish.Dish)
-	if table == nil {
-		return fmt.Errorf("沒有多餘的上菜盤可以放置新料理")
-	}
-	_, err := c.conn.SendCmd(CMD_STORE_FOOD, StoreDishData{stove.Dish.Dish, stove.Dish.CookID, stove.Dish.Loc, table.Dish.Loc})
-	if err != nil {
-		return err
-	}
-	stove.Dish = &DishContainer{0, stove.Dish.Loc, 0, 0, 0, 0}
-	return nil
-}
-
-func findTargetDishtable(tables []DishTable, dish DishID) *DishTable {
-	for k := range tables {
-		if tables[k].Dish.Dish == dish {
-			return &tables[k]
-		}
-	}
-	for k := range tables {
-		if tables[k].Dish.IsEmpty() {
-			return &tables[k]
-		}
-	}
-	return nil
-}
-
-func (c *GameConn) ClearDish(stove *Stove) error {
-	_, err := c.conn.SendCmd(CMD_CLEAR_FOOD, ClearDishData{stove.Dish.Dish, stove.Dish.CookID, stove.Dish.Loc})
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (c *GameConn) GetRestaruntInfo() (*RestaruntInfo, error) {
-	info := &RestaruntInfo{}
-	resp, err := c.conn.SendCmd(CMD_GET_RESTARUNT_INFO, GetRestaruntInfoData{c.User, MAP_RESTARUNT})
+func GetInfo(c *game.GameConn) (info_ *Info, err error) {
+	info = &Info{}
+	resp, err := c.Conn.SendCmd(cmd.RESTAURANT_GET_INFO, GetInfoData{c.User, map_.RESTARUNT})
 	reader := bytes.NewReader(resp)
 
 	var innerStyleId InnerStyleId
@@ -204,6 +119,6 @@ func (c *GameConn) GetRestaruntInfo() (*RestaruntInfo, error) {
 		binary.Read(reader, binary.BigEndian, &employees[i].TimeLimit)
 	}
 	info.Employees = employees
-	restaruntInfo = info
-	return restaruntInfo, err
+	info_ = info
+	return
 }

@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"fmt"
 
+	cmd "github.com/mikucat0309/mole/command"
 	"github.com/mikucat0309/mole/conn"
 )
 
@@ -12,22 +13,8 @@ type (
 	User uint32
 )
 
-const (
-	CMD_LOGIN              = 0xc9
-	CMD_INIT_PLAYER        = 0x2b02
-	CMD_WALK               = 0x12f
-	CMD_LEAVE_MAP          = 0x192
-	CMD_ENTER_MAP          = 0x191
-	CMD_GET_RESTARUNT_INFO = 0x3f6
-	CMD_GET_FOOD_EXP       = 0x416
-	CMD_MAKE_FOOD          = 0x3f9
-	CMD_CLEAR_FOOD         = 0x3fb
-	CMD_PREPARE_FOOD       = 0x3fc
-	CMD_STORE_FOOD         = 0x3fd
-)
-
 type GameConn struct {
-	conn *conn.MoleConn
+	Conn *conn.MoleConn
 	User uint32
 }
 
@@ -52,9 +39,9 @@ func GameLogin(user uint32, session [16]byte) (*GameConn, error) {
 		return nil, err
 	}
 	c2 := &GameConn{
-		conn: c,
+		Conn: c,
 		User: user,
 	}
-	_, err = c.SendCmd(CMD_LOGIN, NewGameLoginData(session))
+	_, err = c.SendCmd(cmd.LOGIN, NewGameLoginData(session))
 	return c2, err
 }

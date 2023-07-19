@@ -1,0 +1,17 @@
+package command
+
+const (
+	LOGIN                   = 0xc9
+	INIT_PLAYER             = 0x2b02
+	MAP_WALK                = 0x12f
+	MAP_LEAVE               = 0x192
+	MAP_ENTER               = 0x191
+	RESTAURANT_GET_INFO     = 0x3f6
+	RESTAURUNT_GET_EVENT    = 0x407
+	RESTAURUNT_SOLVE_EVENT  = 0x408
+	RESTAURANT_GET_FOOD_EXP = 0x416
+	RESTAURANT_MAKE_FOOD    = 0x3f9
+	RESTAURANT_CLEAR_FOOD   = 0x3fb
+	RESTAURANT_PREPARE_FOOD = 0x3fc
+	RESTAURANT_STORE_FOOD   = 0x3fd
+)
