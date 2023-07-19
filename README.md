@@ -27,7 +27,7 @@ go run .\cmd\main.go
 
 請見 [reverse/README.md](reverse/README.md)
 
-### 料理 ID 對照表
+## 料理 ID 對照表
 
 | 料理 ID | 料理名稱 | 料理 ID | 料理名稱 | 料理 ID | 料理名稱 |
 | ------- | -------- | ------- | -------- | ------- | -------- |
